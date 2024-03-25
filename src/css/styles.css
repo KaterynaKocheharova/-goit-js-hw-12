@@ -8,59 +8,19 @@
 
 /* =============================================== GENERAL STYLES ============================================== */
 
-.search-images-section {
-  padding-top: 60xp;
+body {
+  font-family: 'Montserrat', sans-serif;
 }
 
 .container {
   margin-right: auto;
   margin-left: auto;
-  max-width: 1200px;
+  max-width: 1158px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
 
-section {
-  padding-top: 60px;
-}
-
-/* =============================================== SEARCH FORM ================================================ */
-
-.image-search-form {
-  width: 371px;
-  display: flex;
-  column-gap: 8px;
-  margin-right: auto;
-  margin-left: auto;
-  color: rgb(128, 128, 128);
-  margin-bottom: 50px;
-}
-
-.image-search-input {
-  width: 272px;
-  padding-left: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  border: 1px solid rgb(128, 128, 128);
-  border-radius: 4px;
-  background: rgb(255, 255, 255);
-  font-family: 'Montserrat', sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: 0.04em;
-}
-
-.image-search-input:hover {
-  border: 1px solid rgb(0, 0, 0);
-}
-
-.image-search-input:active,
-.image-search-input:focus {
-  border: 1px solid rgb(78, 117, 255);
-  outline: none;
-}
-
-.image-search-submit-btn {
-  width: 91px;
+button {
   height: 40px;
   padding: 8px 16px 8px 16px;
   border: none;
@@ -72,6 +32,52 @@ section {
   font-weight: 500;
   line-height: 1.5;
   letter-spacing: 0.04em;
+}
+
+/* ============================================== SEARCH LAYOUT ============================================== */
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 32px;
+}
+
+.search-images-section {
+  padding-top: 36px;
+}
+
+/* =============================================== SEARCH FORM ================================================ */
+
+.image-search-form {
+  width: 371px;
+  display: flex;
+  column-gap: 8px;
+}
+
+.image-search-input {
+  width: 272px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 16px;
+  border: 1px solid rgb(128, 128, 128);
+  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #808080;
+}
+
+.image-search-input:hover {
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.image-search-input:active,
+.image-search-input:focus {
+  border: 1px solid rgb(78, 117, 255);
+  outline: none;
 }
 
 .image-search-submit-btn:hover,
@@ -110,17 +116,15 @@ section {
 }
 /* ==================================================== GALLERY ============================================== */
 
-
 @media screen and (min-width: 768px) {
   .images-gallery {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     gap: 24px;
   }
 
   .gallery-item {
-    width: calc((100% - 72px) / 4);
+    width: calc((100% - 48px) / 3);
   }
 }
 
@@ -128,35 +132,40 @@ section {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
 
-.image-link {
-  display: block;
-  height: 200px;
-}
-
 .gallery-image {
-  margin-right: auto;
-  margin-left: auto;
   object-fit: cover;
-  height: 100%;
 }
 
 .tags-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 16px;
-  padding: 10px;
+  gap: 32px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .tag {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 7px;
 }
 
 .tag-name {
+  font-size: 12px;
   font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  color: rgb(46, 47, 66);
+}
+
+.tag-details {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 2;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
 }
 
 /* =============================================== LOADER ==================================================== */

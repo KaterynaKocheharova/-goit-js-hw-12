@@ -25,7 +25,7 @@ export function renderImages(response) {
           `
         <li class="gallery-item">
           <a class="image-link" href="${largeImageURL}">
-            <img class="gallery-image" src="${webformatURL}" alt="${tags}" loading="lazy"/>
+            <img class="gallery-image" src="${webformatURL}" alt="${tags}" loading="lazy" width="360" height="152"/>
           </a>
   
           <div class="tags-container">
