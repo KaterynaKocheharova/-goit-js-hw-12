@@ -1,0 +1,197 @@
+/**
+  |============================
+  | include css partials with
+  | default @import url()
+  |============================
+*/
+@import url('./reset.css');
+
+/* =============================================== GENERAL STYLES ============================================== */
+
+.search-images-section {
+  padding-top: 60xp;
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1200px;
+}
+
+section {
+  padding-top: 60px;
+}
+
+/* =============================================== SEARCH FORM ================================================ */
+
+.image-search-form {
+  width: 371px;
+  display: flex;
+  column-gap: 8px;
+  margin-right: auto;
+  margin-left: auto;
+  color: rgb(128, 128, 128);
+  margin-bottom: 50px;
+}
+
+.image-search-input {
+  width: 272px;
+  padding-left: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border: 1px solid rgb(128, 128, 128);
+  border-radius: 4px;
+  background: rgb(255, 255, 255);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.image-search-input:hover {
+  border: 1px solid rgb(0, 0, 0);
+}
+
+.image-search-input:active,
+.image-search-input:focus {
+  border: 1px solid rgb(78, 117, 255);
+  outline: none;
+}
+
+.image-search-submit-btn {
+  width: 91px;
+  height: 40px;
+  padding: 8px 16px 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: rgb(78, 117, 255);
+  color: rgb(255, 255, 255);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+}
+
+.image-search-submit-btn:hover,
+.image-search-submit-btn:focus {
+  background-color: rgb(108, 140, 255);
+}
+
+/* =========================================== IZI TOAST ======================================================== */
+
+.iziToast-wrapper-topRight {
+  top: 50px;
+  right: 20px;
+}
+
+.iziToast-wrapper-topRight .iziToast > .iziToast-body .iziToast-message,
+.iziToast > .iziToast-body .iziToast-title {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.iziToast > .iziToast-body .iziToast-message {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+  color: #fafafb;
+}
+
+.iziToast-wrapper .iziToast {
+  border-radius: 4px;
+}
+
+.iziToast-wrapper .iziToast > .iziToast-close {
+  background: url('../img/close-btn.png') no-repeat 50% 50%;
+}
+/* ==================================================== GALLERY ============================================== */
+
+
+@media screen and (min-width: 768px) {
+  .images-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+
+  .gallery-item {
+    width: calc((100% - 72px) / 4);
+  }
+}
+
+.gallery-item {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.image-link {
+  display: block;
+  height: 200px;
+}
+
+.gallery-image {
+  margin-right: auto;
+  margin-left: auto;
+  object-fit: cover;
+  height: 100%;
+}
+
+.tags-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px;
+}
+
+.tag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.tag-name {
+  font-weight: 600;
+}
+
+/* =============================================== LOADER ==================================================== */
+
+.loader {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+
+.loader::after,
+.loader::before {
+  content: '';
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid black;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloader 2s linear infinite;
+}
+.loader::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloader {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
