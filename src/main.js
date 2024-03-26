@@ -2,45 +2,42 @@
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-// ======================================= FUNCTIONS IMPORTS
+// // ======================================= INLCUDING SIMPLE LIGHTBOX
+// import SimpleLightbox from 'simplelightbox';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
+
+// ======================================= IMPORTS
+import { refs } from './js/elements';
+import { showEl, hideEl } from './js/is-open';
 import { findImages } from './js/pixabay.api';
-import { renderImages } from './js/render-functions';
+import { imagesRenderTemplate } from './js/render-functions';
 
-// ======================================= VARIABLES IMPORTS
-
-import { gallery } from './js/variables';
-
-// ======================================= FORM 
-const imageSearchForm = document.querySelector('.image-search-form');
-imageSearchForm.addEventListener('submit', handleImageSearchFormSubmit);
-
+// ======================================== EVENT LISTENERS
+refs.imageSearchForm.addEventListener('submit', onImgSubmit);
 // ======================================== HANDLE FORM SUBMIT
+let searchImage;
 
-function handleImageSearchFormSubmit(event) {
+function onImgSubmit(event) {
   event.preventDefault();
-
-// ======================================== ADDING LOADER
-
-  const loaderMarkup = `<span class="loader"></span>`;
-  gallery.innerHTML = loaderMarkup;
-
-  const imageToSearchFor =
-    event.currentTarget.elements.searchImage.value.trim();
-
-  if (imageToSearchFor === '') {
+  // ====================================== GETTING IMAGE FOR REQUEST
+  searchImage = event.currentTarget.elements.searchImage.value.trim();
+  refs.gallery.innerHTML = '';
+  event.currentTarget.reset();
+  // ==================================== CHECKING FOR EMPTY FIELDS
+  if (searchImage === '') {
     iziToast.warning({
       message: 'Write what image you want to search for',
       position: 'topRight',
     });
     return;
   }
-
-  event.currentTarget.reset();
-
-  // ================================== MAKING REQUEST
-  findImages(imageToSearchFor)
-    .then(response => {
-      if (!response.hits.length) {
+  // ====================================== ADDING LOADER
+  showEl(refs.loader);
+  // ===================================== MAKING A REQUEST
+  hideEl(refs.loadMoreBtn);
+  findImages(searchImage)
+    .then(async response => {
+      if (!response.length) {
         iziToast.error({
           message:
             'Sorry, there are no images matching your search query. Please try again!',
@@ -52,23 +49,15 @@ function handleImageSearchFormSubmit(event) {
           progressBarColor: 'rgb(181, 27, 27)',
           // icon: 'icon-error-sign',
         });
-      } else {
-      // ============================== RENDERING IMAGES
-        renderImages(response);
+        refs.gallery.innerHTML = '';
+        hideEl(refs.loadMoreBtn);
+        return;
       }
+      // ============================== RENDERING IMAGES
+      const imagesMarkup = await imagesRenderTemplate(response);
+      refs.gallery.insertAdjacentHTML('beforeend', imagesMarkup);
+      // ============================== REMOVING LOADER; MOVING IT BELOW LIST
+      hideEl(refs.loader);
+      refs.loader.style.order = '3';
     })
-    .catch(error => {
-      console.error('Error fetching images:', error);
-      iziToast.error({
-        message: 'Failed to fetch images. Please try again later.',
-        position: 'topRight',
-      });
-    });
 }
-
-
-
-
-
-
-

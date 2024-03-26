@@ -24,17 +24,21 @@
             type="text"
             placeholder="Search images..."
           />
-          <button class="button image-search-submit-btn" type="submit">Search</button>
+          <button class="button image-search-submit-btn" type="submit">
+            Search
+          </button>
         </form>
 
+        <div class="loader-container">
+          <p class="loader-text">Loading images, please wait...</p>
+          <span class="loader"></span>
+        </div>
         <ul class="images-gallery gallery"></ul>
+
         <button class="button load-more-btn" type="button">Load more</button>
       </div>
-      
     </section>
 
     <script type="module" src="./main.js"></script>
   </body>
 </html>
-
-

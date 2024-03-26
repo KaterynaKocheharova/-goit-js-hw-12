@@ -168,6 +168,14 @@ button {
   color: #2e2f42;
 }
 
+.load-more-btn {
+  display: none;
+}
+
+.load-more-btn.is-open {
+  display: block;
+}
+
 /* =============================================== LOADER ==================================================== */
 
 .loader {
@@ -203,4 +211,20 @@ button {
     transform: scale(1);
     opacity: 0;
   }
+}
+
+.loader-container {
+  display: none;
+  gap: 5px;
+  align-items: center;
+}
+
+.loader-container.is-open {
+  display: flex;
+}
+
+.loader-text {
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  color: #2e2f42;
 }
