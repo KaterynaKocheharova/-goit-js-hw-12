@@ -48,7 +48,7 @@ function onImgSubmit(event) {
       return;
     }
 
-    totalImg = response.data.totalHits;
+    totalImg = response.data.totalHits - 1;
     console.log(totalImg)
     maxPage = Math.ceil(totalImg / 15);
     // rendering images
