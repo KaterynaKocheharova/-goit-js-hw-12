@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // ============================================= MAKING REQUEST
-export async function findImages(image) {
+export async function findImages(image, page, limit) {
 
   // =========================================== SEARCH PARAMS
     const imageSearchParams = new URLSearchParams({
@@ -12,10 +12,11 @@ export async function findImages(image) {
       orientation: 'horizontal',
       order: 'latest',
       safesearch: true,
+      per_page: limit,
+      page: page
     });
-
     const response = await axios.get(
       `https://pixabay.com/api/?${imageSearchParams}`
     );
-    return response.data.hits;
+    return response;
 }
