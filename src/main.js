@@ -54,6 +54,7 @@ function onImgSubmit(event) {
     // rendering images
     const imagesMarkup = imagesRenderTemplate(response.data.hits);
     refs.gallery.innerHTML = imagesMarkup;
+    page += 1;
     hideEl(refs.loader);
     showEl(refs.loadMoreBtn);
   });
@@ -73,11 +74,11 @@ function onLoadMoreImg() {
   // making a request
   findImages(searchImage, page, limit)
     .then(response => {
-      page += 1;
       const imagesMarkup = imagesRenderTemplate(response.data.hits);
       refs.gallery.insertAdjacentHTML('beforeend', imagesMarkup);
       hideEl(refs.loader);
       showEl(refs.loadMoreBtn);
+      page += 1;
     })
     .catch(error => {
       console.log(error);
