@@ -18,5 +18,6 @@ const imageSearchParams = new URLSearchParams({
 const response = await axios.get(
   `https://pixabay.com/api/?${imageSearchParams}`
 );
+console.log(response)
 return response;
 }

@@ -1,6 +1,3 @@
-// // ======================================= INLCUDING SIMPLE LIGHTBOX
-// import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
 
 // ======================================= IMPORTS
 import { refs } from './js/elements';
@@ -8,13 +5,14 @@ import { showEl, hideEl } from './js/is-open';
 import { findImages } from './js/pixabay.api';
 import { imagesRenderTemplate } from './js/render-functions';
 import { warning, error } from './js/izi-toast';
+import { handleLightbox } from './js/simplelightbox';
+import { smoothScroll } from './js/scrolling';
 
 // ======================================== EVENT LISTENERS
 refs.imageSearchForm.addEventListener('submit', onImgSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 
 // ======================================== PAGE
-
 let page = 1;
 let limit = 100;
 let totalImg;
@@ -48,15 +46,18 @@ function onImgSubmit(event) {
       return;
     }
 
-    totalImg = response.data.totalHits - 1;
-    console.log(totalImg)
-    maxPage = Math.ceil(totalImg / 15);
+    totalImg = response.data.totalHits;
+    console.log(totalImg);
+    maxPage = Math.ceil(totalImg / limit);
     // rendering images
     const imagesMarkup = imagesRenderTemplate(response.data.hits);
     refs.gallery.innerHTML = imagesMarkup;
     page += 1;
     hideEl(refs.loader);
     showEl(refs.loadMoreBtn);
+    handleLightbox();
+    // smooth scrolling
+    smoothScroll();
   });
 }
 
@@ -66,10 +67,9 @@ function onLoadMoreImg() {
   showEl(refs.loader);
 
   // checking if there are more images
-  if (page > maxPage) {
-    error("We're sorry, but you've reached the end of search results");
+  if (page >= maxPage) {
     hideEl(refs.loadMoreBtn);
-    return;
+    return error("We're sorry, but you've reached the end of search results");
   }
   // making a request
   findImages(searchImage, page, limit)
@@ -79,8 +79,12 @@ function onLoadMoreImg() {
       hideEl(refs.loader);
       showEl(refs.loadMoreBtn);
       page += 1;
+      handleLightbox();
     })
     .catch(error => {
       console.log(error);
     });
 }
+
+
+
