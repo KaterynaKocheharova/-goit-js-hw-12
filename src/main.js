@@ -11,12 +11,12 @@ import { warning, error } from './js/izi-toast';
 
 // ======================================== EVENT LISTENERS
 refs.imageSearchForm.addEventListener('submit', onImgSubmit);
-refs.loadMoreBtn.addEventListener("click", onLoadMoreImg);
+refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 
 // ======================================== PAGE
 
 let page = 1;
-let limit = 15;
+let limit = 100;
 let totalImg;
 let maxPage;
 
@@ -49,6 +49,7 @@ function onImgSubmit(event) {
     }
 
     totalImg = response.data.totalHits;
+    console.log(totalImg)
     maxPage = Math.ceil(totalImg / 15);
     // rendering images
     const imagesMarkup = imagesRenderTemplate(response.data.hits);
@@ -60,21 +61,25 @@ function onImgSubmit(event) {
 
 // ================================================ ON LOAD MORE IMG
 function onLoadMoreImg() {
-  page += 1;
   refs.loader.style.order = 3;
   showEl(refs.loader);
-  // making a request
-  findImages(searchImage, page, limit).then(response => {
-    // checking if there are more images
-    if (page > maxPage ) {
-      error("We're sorry, but you've reached the end of search results");
-      hideEl(refs.loadMoreBtn);
-      return;
-    }
 
-    const imagesMarkup = imagesRenderTemplate(response.data.hits);
-    refs.gallery.insertAdjacentHTML("beforeend", imagesMarkup);
-    hideEl(refs.loader);
-    showEl(refs.loadMoreBtn);
-  })
+  // checking if there are more images
+  if (page > maxPage) {
+    error("We're sorry, but you've reached the end of search results");
+    hideEl(refs.loadMoreBtn);
+    return;
+  }
+  // making a request
+  findImages(searchImage, page, limit)
+    .then(response => {
+      page += 1;
+      const imagesMarkup = imagesRenderTemplate(response.data.hits);
+      refs.gallery.insertAdjacentHTML('beforeend', imagesMarkup);
+      hideEl(refs.loader);
+      showEl(refs.loadMoreBtn);
+    })
+    .catch(error => {
+      console.log(error);
+    });
 }
