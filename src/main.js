@@ -1,7 +1,3 @@
-// // ======================================= INLCUDING SIMPLE LIGHTBOX
-// import SimpleLightbox from 'simplelightbox';
-// import 'simplelightbox/dist/simple-lightbox.min.css';
-
 // ======================================= IMPORTS
 import { refs } from './js/elements';
 import { showEl, hideEl } from './js/is-open';
