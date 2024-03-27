@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+=======
+// // ======================================= INLCUDING SIMPLE LIGHTBOX
+// import SimpleLightbox from 'simplelightbox';
+// import 'simplelightbox/dist/simple-lightbox.min.css';
+
+>>>>>>> parent of 4724079 (Done)
 // ======================================= IMPORTS
 import { refs } from './js/elements';
 // import { handleEmptyField } from './js/form-validation';
@@ -5,14 +12,13 @@ import { showEl, hideEl } from './js/is-open';
 import { findImages } from './js/pixabay.api';
 import { imagesRenderTemplate } from './js/render-functions';
 import { warning, error } from './js/izi-toast';
-import { handleLightbox } from './js/simplelightbox';
-import { smoothScroll } from './js/scrolling';
 
 // ======================================== EVENT LISTENERS
 refs.imageSearchForm.addEventListener('submit', onImgSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 
 // ======================================== PAGE
+
 let page = 1;
 let limit = 15;
 let totalImg;
@@ -38,6 +44,7 @@ function onImgSubmit(event) {
     return;
   }
 
+<<<<<<< HEAD
   // making a request
   findImages(searchImage, page, limit)
     .then(response => {
@@ -70,6 +77,18 @@ function onImgSubmit(event) {
         error("We're sorry, but you've reached the end of search results");
       }
     });
+=======
+    totalImg = response.data.totalHits - 1;
+    console.log(totalImg)
+    maxPage = Math.ceil(totalImg / 15);
+    // rendering images
+    const imagesMarkup = imagesRenderTemplate(response.data.hits);
+    refs.gallery.innerHTML = imagesMarkup;
+    page += 1;
+    hideEl(refs.loader);
+    showEl(refs.loadMoreBtn);
+  });
+>>>>>>> parent of 4724079 (Done)
 }
 
 // ================================================ ON LOAD MORE IMG
@@ -79,9 +98,15 @@ function onLoadMoreImg() {
 
   // checking if there are more images
   if (page > maxPage) {
+<<<<<<< HEAD
     hideEl(refs.loadMoreBtn);
     hideEl(refs.loader);
     return error("We're sorry, but you've reached the end of search results");
+=======
+    error("We're sorry, but you've reached the end of search results");
+    hideEl(refs.loadMoreBtn);
+    return;
+>>>>>>> parent of 4724079 (Done)
   }
   // making a request
   findImages(searchImage, page, limit)
@@ -95,7 +120,6 @@ function onLoadMoreImg() {
       hideEl(refs.loader);
       showEl(refs.loadMoreBtn);
       page += 1;
-      handleLightbox();
     })
     .catch(error => {
       console.log(error);
