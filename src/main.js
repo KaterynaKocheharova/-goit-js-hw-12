@@ -79,8 +79,7 @@ function onImgSubmit(event) {
 
 // ================================================ ON LOAD MORE IMG
 
-function onLoadMoreImg(event) {
-  console.log(searchImage);
+function onLoadMoreImg() {
   currentPage += 1;
   hideEl(refs.loadMoreBtn);
   refs.loader.style.order = 3;
