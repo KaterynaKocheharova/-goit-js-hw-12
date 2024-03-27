@@ -7,6 +7,7 @@ import { showEl, hideEl } from './js/is-open';
 import { findImages } from './js/pixabay.api';
 import { imagesRenderTemplate } from './js/render-functions';
 import { warningMessage, errorMessage } from './js/izi-toast';
+import { turnSmoothScroll } from './js/smooth-scroll';
 
 // ======================================== EVENT LISTENERS
 refs.imageSearchForm.addEventListener('submit', onImgSubmit);
@@ -41,15 +42,15 @@ function onImgSubmit(event) {
   findImages(searchImage, currentPage, limitPerPage)
     .then(res => {
       // checking if images are present
-      if(res.data.totalHits === 0) {
-        errorMessage("No images found");
+      if (res.data.totalHits === 0) {
+        errorMessage('No images found');
         hideEl(refs.loader);
         return;
       }
       // rendering images
-        const galleryMarkup = imagesRenderTemplate(res.data.hits);
-        refs.gallery.innerHTML = galleryMarkup;
-        return res;
+      const galleryMarkup = imagesRenderTemplate(res.data.hits);
+      refs.gallery.innerHTML = galleryMarkup;
+      return res;
     })
     // calculating the total num of img and the maximum possible page num
     .then(res => {
@@ -73,13 +74,13 @@ function onImgSubmit(event) {
     })
     .finally(() => {
       lightbox.refresh();
-    })
+    });
 }
 
 // ================================================ ON LOAD MORE IMG
 
 function onLoadMoreImg(event) {
-console.log(searchImage);
+  console.log(searchImage);
   currentPage += 1;
   hideEl(refs.loadMoreBtn);
   refs.loader.style.order = 3;
@@ -87,11 +88,11 @@ console.log(searchImage);
 
   findImages(searchImage, currentPage, limitPerPage)
     .then(res => {
-      console.log(res)
+      console.log(res);
       // rendering images
       const galleryMarkup = imagesRenderTemplate(res.data.hits);
-      refs.gallery.insertAdjacentHTML("beforeend", galleryMarkup);
-
+      refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup);
+      turnSmoothScroll();
     })
     .catch(error => {
       console.log(error);
@@ -110,6 +111,3 @@ console.log(searchImage);
       lightbox.refresh();
     });
 }
-
-
-
