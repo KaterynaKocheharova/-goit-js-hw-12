@@ -22,7 +22,6 @@ let maxPage;
 let searchImage;
 
 function onImgSubmit(event) {
-
   event.preventDefault();
   refs.gallery.innerHTML = '';
   hideEl(refs.loadMoreBtn);
@@ -31,7 +30,7 @@ function onImgSubmit(event) {
 
   searchImage = event.currentTarget.elements.searchImage.value.trim();
   event.currentTarget.reset();
-  
+
   // checking for empty fields
   if (searchImage === '') {
     warning('Write what image you want to search for');
@@ -40,34 +39,37 @@ function onImgSubmit(event) {
   }
 
   // making a request
-  findImages(searchImage, page, limit).then(response => {
-    // checking if images exist
-    if (!response.data.totalHits) {
-      error(
-        'Sorry, there are no images matching your search query. Please try again!'
-      );
+  findImages(searchImage, page, limit)
+    .then(response => {
+      // checking if images exist
+      if (!response.data.totalHits) {
+        error(
+          'Sorry, there are no images matching your search query. Please try again!'
+        );
+        hideEl(refs.loader);
+        return;
+      }
+
+      totalImg = response.data.totalHits;
+      maxPage = Math.ceil(totalImg / limit);
+
+      // rendering images
+      const imagesMarkup = imagesRenderTemplate(response.data.hits);
+      refs.gallery.innerHTML = imagesMarkup;
+      page += 1;
       hideEl(refs.loader);
-      return;
-    }
 
-    totalImg = response.data.totalHits;
-    maxPage = Math.ceil(totalImg / limit);
-
-    if (!totalImg < limit) {
-      showEl(refs.loadMoreBtn);
-    }
-
-    // rendering images
-    const imagesMarkup = imagesRenderTemplate(response.data.hits);
-    refs.gallery.innerHTML = imagesMarkup;
-    page += 1;
-    hideEl(refs.loader);
-
-    // adding lightbox
-    handleLightbox();
-    // smooth scrolling
-    smoothScroll();
-  });
+      // adding lightbox
+      handleLightbox();
+      // smooth scrolling
+      smoothScroll();
+    })
+    .finally(() => {
+      if (!totalImg < limit) {
+        showEl(refs.loadMoreBtn);
+        error("We're sorry, but you've reached the end of search results");
+      }
+    });
 }
 
 // ================================================ ON LOAD MORE IMG
