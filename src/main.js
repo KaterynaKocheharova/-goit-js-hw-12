@@ -32,6 +32,7 @@ function onImgSubmit(event) {
     errorMessage('Write what image you want to search for');
     return;
   }
+
   event.currentTarget.reset();
   currentPage = 1;
 
@@ -39,21 +40,24 @@ function onImgSubmit(event) {
   showEl(refs.loader);
   findImages(searchImage, currentPage, limitPerPage)
     .then(res => {
+      // checking if images are present
+      if(res.data.totalHits === 0) {
+        errorMessage("No images found");
+        hideEl(refs.loader);
+        return;
+      }
       // rendering images
-      const galleryMarkup = imagesRenderTemplate(res.data.hits);
-      refs.gallery.innerHTML = galleryMarkup;
-      return res;
+        const galleryMarkup = imagesRenderTemplate(res.data.hits);
+        refs.gallery.innerHTML = galleryMarkup;
+        return res;
     })
     // calculating the total num of img and the maximum possible page num
     .then(res => {
       totalImg = res.data.totalHits;
       maxNumPage = Math.ceil(res.data.totalHits / limitPerPage);
     })
-    .catch(error => {
-      console.log(error);
-    })
     // checking for the last page
-    .finally(() => {
+    .then(() => {
       if (totalImg <= limitPerPage) {
         warningMessage(
           "You've reached the end of the collection. No more images are left"
@@ -61,14 +65,15 @@ function onImgSubmit(event) {
       } else {
         // adding load more btn
         showEl(refs.loadMoreBtn);
-        if (!lightbox) {
-          lightbox = new SimpleLightbox('.gallery a');
-        } else {
-          lightbox.refresh();
-        }
       }
       hideEl(refs.loader);
-    });
+    })
+    .catch(error => {
+      console.log(error);
+    })
+    .finally(() => {
+      lightbox.refresh();
+    })
 }
 
 // ================================================ ON LOAD MORE IMG
@@ -99,8 +104,8 @@ console.log(searchImage);
       } else {
         // adding load more btn
         showEl(refs.loadMoreBtn);
-        lightbox.refresh();
       }
       hideEl(refs.loader);
+      lightbox.refresh();
     });
 }
