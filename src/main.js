@@ -18,7 +18,7 @@ let currentPage = 0;
 let limitPerPage = 15;
 let totalImg;
 let maxNumPage;
-let lightbox;
+let lightbox = new SimpleLightbox('.gallery a');
 
 // ======================================== ON IMG SUBMIT
 let searchImage;
@@ -99,11 +99,7 @@ console.log(searchImage);
       } else {
         // adding load more btn
         showEl(refs.loadMoreBtn);
-        if (!lightbox) {
-          lightbox = new SimpleLightbox('.gallery a');
-        } else {
-          lightbox.refresh();
-        }
+        lightbox.refresh();
       }
       hideEl(refs.loader);
     });
