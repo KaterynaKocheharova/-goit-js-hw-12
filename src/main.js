@@ -91,6 +91,7 @@ console.log(searchImage);
       // rendering images
       const galleryMarkup = imagesRenderTemplate(res.data.hits);
       refs.gallery.insertAdjacentHTML("beforeend", galleryMarkup);
+
     })
     .catch(error => {
       console.log(error);
@@ -109,3 +110,6 @@ console.log(searchImage);
       lightbox.refresh();
     });
 }
+
+
+
