@@ -82,7 +82,8 @@ function onImgSubmit(event) {
 function onLoadMoreImg() {
   currentPage += 1;
   hideEl(refs.loadMoreBtn);
-  refs.loader.style.order = 3;
+  refs.loader.style.order = 5;
+  refs.loadMoreBtn.style.order = 4;
   showEl(refs.loader);
 
   findImages(searchImage, currentPage, limitPerPage)
