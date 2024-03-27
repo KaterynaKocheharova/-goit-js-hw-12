@@ -4,14 +4,14 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 // ====================================== FUNCTIONS
 
-export function warning(message) {
+export function warningMessage(message) {
     iziToast.warning({
         message,
         position: 'topRight',
       });
 }
 
-export function error(message) {
+export function errorMessage(message) {
     iziToast.error({
         message,
         position: 'topRight',

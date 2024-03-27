@@ -48,11 +48,3 @@ function imageTemplate({
 
 
 
-
-//     let myLightboxGallery;
-//     const images = response.hits;
-//     if (!myLightboxGallery) {
-//       myLightboxGallery = new SimpleLightbox('.gallery a');
-//     } else {
-//       myLightboxGallery.refresh();
-//     }
