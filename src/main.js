@@ -86,6 +86,10 @@ function onLoadMoreImg() {
   refs.loadMoreBtn.style.order = 4;
   showEl(refs.loader);
 
+  // refs.loadMoreBtn.textContent = "Loading images, please wait";
+  
+
+
   findImages(searchImage, currentPage, limitPerPage)
     .then(res => {
       console.log(res);
