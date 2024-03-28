@@ -27,6 +27,8 @@ let searchImage;
 async function onImgSubmit(event) {
   event.preventDefault();
   refs.gallery.innerHTML = '';
+  hideEl(refs.loadMoreBtn);
+  showEl(refs.loader);
   searchImage = event.currentTarget.elements.searchImage.value.trim('');
   // checking for empty fields
   if (searchImage === '') {
@@ -36,9 +38,6 @@ async function onImgSubmit(event) {
 
   event.currentTarget.reset();
   currentPage = 1;
-
-  hideEl(refs.loadMoreBtn);
-  showEl(refs.loader);
 
   try {
     const res = await findImages(searchImage, currentPage, limitPerPage);
@@ -51,7 +50,7 @@ async function onImgSubmit(event) {
     // rendering images
     const galleryMarkup = imagesRenderTemplate(res.data.hits);
     refs.gallery.innerHTML = galleryMarkup;
-    // tal num of img and the maximum possible page num
+    // calculate num of img and the maximum possible page num
     totalImg = res.data.totalHits;
     maxNumPage = Math.ceil(res.data.totalHits / limitPerPage);
 

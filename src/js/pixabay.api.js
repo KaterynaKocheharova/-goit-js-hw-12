@@ -1,9 +1,13 @@
 
 import axios from 'axios';
 
+const Axios = axios.create({
+  baseURL: "https://pixabay.com/api/"
+})
+
 export async function findImages(image, page, limit) {
 
-const imageSearchParams = new URLSearchParams({
+const params = {
   key: '42878081-96b370588af70c81d3a302fb0',
   q: image,
   image_type: 'photo',
@@ -12,9 +16,11 @@ const imageSearchParams = new URLSearchParams({
   safesearch: true,
   per_page: limit,
   page: page,
-});
-const response = await axios.get(
-  `https://pixabay.com/api/?${imageSearchParams}`
+};
+
+const response = await Axios.get(
+  ``, { params }
 );
+
 return response;
 }
