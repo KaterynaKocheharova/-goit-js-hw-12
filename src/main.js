@@ -39,31 +39,36 @@ async function onImgSubmit(event) {
 
   hideEl(refs.loadMoreBtn);
   showEl(refs.loader);
-  const res = await findImages(searchImage, currentPage, limitPerPage);
-  // checking if images are present
-  if (res.data.totalHits === 0) {
-    errorMessage('No images found');
-    hideEl(refs.loader);
-    return;
-  }
-  // rendering images
-  const galleryMarkup = imagesRenderTemplate(res.data.hits);
-  refs.gallery.innerHTML = galleryMarkup;
-  // tal num of img and the maximum possible page num
-  totalImg = res.data.totalHits;
-  maxNumPage = Math.ceil(res.data.totalHits / limitPerPage);
 
-  // checking for the last page
-  if (totalImg <= limitPerPage) {
-    warningMessage(
-      "You've reached the end of the collection. No more images are left"
-    );
-  } else {
-    // adding load more btn
-    showEl(refs.loadMoreBtn);
+  try {
+    const res = await findImages(searchImage, currentPage, limitPerPage);
+    // checking if images are present
+    if (res.data.totalHits === 0) {
+      errorMessage('No images found');
+      hideEl(refs.loader);
+      return;
+    }
+    // rendering images
+    const galleryMarkup = imagesRenderTemplate(res.data.hits);
+    refs.gallery.innerHTML = galleryMarkup;
+    // tal num of img and the maximum possible page num
+    totalImg = res.data.totalHits;
+    maxNumPage = Math.ceil(res.data.totalHits / limitPerPage);
+
+    // checking for the last page
+    if (totalImg <= limitPerPage) {
+      warningMessage(
+        "You've reached the end of the collection. No more images are left"
+      );
+    } else {
+      // adding load more btn
+      showEl(refs.loadMoreBtn);
+    }
+    hideEl(refs.loader);
+    lightbox.refresh();
+  } catch (err) {
+    errorMessage(`Error: ${err}`)
   }
-  hideEl(refs.loader);
-  lightbox.refresh();
 }
 
 // ================================================ ON LOAD MORE IMG
@@ -78,22 +83,26 @@ async function onLoadMoreImg() {
 
   // refs.loadMoreBtn.textContent = "Loading images, please wait";
 
-  const res = await findImages(searchImage, currentPage, limitPerPage);
-  // rendering images
-  const galleryMarkup = imagesRenderTemplate(res.data.hits);
-  refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup);
-  setTimeout(() => {
-    turnSmoothScroll();
-  }, 50);
-  // checking for the last page
-  if (currentPage > maxNumPage) {
-    warningMessage(
-      "You've reached the end of the collection. No more images are left"
-    );
-  } else {
-    // adding load more btn
-    showEl(refs.loadMoreBtn);
+  try {
+    const res = await findImages(searchImage, currentPage, limitPerPage);
+    // rendering images
+    const galleryMarkup = imagesRenderTemplate(res.data.hits);
+    refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup);
+    setTimeout(() => {
+      turnSmoothScroll();
+    }, 50);
+    // checking for the last page
+    if (currentPage > maxNumPage) {
+      warningMessage(
+        "You've reached the end of the collection. No more images are left"
+      );
+    } else {
+      // adding load more btn
+      showEl(refs.loadMoreBtn);
+    }
+    hideEl(refs.loader);
+    lightbox.refresh();
+  } catch (err) {
+    errorMessage(`Error: ${err}`)
   }
-  hideEl(refs.loader);
-  lightbox.refresh();
 }
