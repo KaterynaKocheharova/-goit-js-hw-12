@@ -13,12 +13,14 @@ import { turnSmoothScroll } from './js/smooth-scroll';
 refs.imageSearchForm.addEventListener('submit', onImgSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 
-// ======================================== PAGE
+// ======================================== PAGE VARIABLES
 
 let currentPage = 0;
-let limitPerPage = 100;
+let limitPerPage = 15;
 let totalImg;
 let maxNumPage;
+
+// ======================================= LIGHTBOX INITIALIZATION
 let lightbox = new SimpleLightbox('.gallery a');
 
 // ======================================== ON IMG SUBMIT
@@ -73,16 +75,15 @@ async function onImgSubmit(event) {
 // ================================================ ON LOAD MORE IMG
 
 async function onLoadMoreImg() {
-  currentPage += 1;
   hideEl(refs.loadMoreBtn);
-
-  refs.loader.style.order = 5;
   refs.loadMoreBtn.style.order = 4;
+  refs.loader.style.order = 5;
   showEl(refs.loader);
-
-  // refs.loadMoreBtn.textContent = "Loading images, please wait";
+ 
+  currentPage += 1;
 
   try {
+    // making request
     const res = await findImages(searchImage, currentPage, limitPerPage);
     // rendering images
     const galleryMarkup = imagesRenderTemplate(res.data.hits);
