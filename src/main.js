@@ -82,36 +82,40 @@ function onImgSubmit(event) {
 function onLoadMoreImg() {
   currentPage += 1;
   hideEl(refs.loadMoreBtn);
-  refs.loader.style.order = 5;
-  refs.loadMoreBtn.style.order = 4;
-  showEl(refs.loader);
+
+
+    refs.loader.style.order = 5;
+    refs.loadMoreBtn.style.order = 4;
+    showEl(refs.loader)
 
   // refs.loadMoreBtn.textContent = "Loading images, please wait";
-  
 
 
   findImages(searchImage, currentPage, limitPerPage)
-    .then(res => {
-      console.log(res);
-      // rendering images
-      const galleryMarkup = imagesRenderTemplate(res.data.hits);
-      refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup);
-      turnSmoothScroll();
-    })
-    .catch(error => {
-      console.log(error);
-    })
-    // checking for the last page
-    .finally(() => {
-      if (currentPage > maxNumPage) {
-        warningMessage(
-          "You've reached the end of the collection. No more images are left"
-        );
-      } else {
-        // adding load more btn
-        showEl(refs.loadMoreBtn);
-      }
-      hideEl(refs.loader);
-      lightbox.refresh();
-    });
+  .then(res => {
+    console.log(res);
+    // rendering images
+    const galleryMarkup = imagesRenderTemplate(res.data.hits);
+    refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup);
+      setTimeout(() => {
+        turnSmoothScroll();
+      }, 50);
+  })
+  .catch(error => {
+    console.log(error);
+  })
+  // checking for the last page
+  .finally(() => {
+    if (currentPage > maxNumPage) {
+      warningMessage(
+        "You've reached the end of the collection. No more images are left"
+      );
+    } else {
+      // adding load more btn
+      showEl(refs.loadMoreBtn);
+    }
+    hideEl(refs.loader);
+    lightbox.refresh();
+})
+  
 }

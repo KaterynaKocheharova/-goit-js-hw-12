@@ -6,4 +6,4 @@ export function turnSmoothScroll() {
             behavior: "smooth",
           });
 }
-  
+
