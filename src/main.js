@@ -16,7 +16,7 @@ refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 // ======================================== PAGE VARIABLES
 
 let currentPage = 0;
-let limitPerPage = 15;
+let limitPerPage = 100;
 let totalImg;
 let maxNumPage;
 
@@ -92,7 +92,7 @@ async function onLoadMoreImg() {
       turnSmoothScroll();
     }, 50);
     // checking for the last page
-    if (currentPage > maxNumPage) {
+    if (currentPage >= maxNumPage || limitPerPage * currentPage >= totalImg) {
       warningMessage(
         "You've reached the end of the collection. No more images are left"
       );
