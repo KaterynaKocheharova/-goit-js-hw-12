@@ -16,7 +16,7 @@ refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 // ======================================== PAGE VARIABLES
 
 let currentPage = 0;
-let limitPerPage = 100;
+let limitPerPage = 15;
 let totalImg;
 let maxNumPage;
 
