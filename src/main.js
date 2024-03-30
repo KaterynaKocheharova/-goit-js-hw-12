@@ -5,7 +5,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { refs } from './js/elements';
 import { showEl, hideEl } from './js/is-open';
 import { findImages } from './js/pixabay.api';
-import { imagesRenderTemplate } from './js/render-functions';
+import { renderImg } from './js/render-functions';
 import { warningMessage, errorMessage } from './js/izi-toast';
 import { turnSmoothScroll } from './js/smooth-scroll';
 
@@ -14,33 +14,31 @@ refs.imageSearchForm.addEventListener('submit', onImgSubmit);
 refs.loadMoreBtn.addEventListener('click', onLoadMoreImg);
 
 // ======================================== PAGE VARIABLES
-
+let searchImage;
 let currentPage = 0;
 let limitPerPage = 15;
-let totalImg;
-let maxNumPage;
+let maxNumPage = 0;
 
 // ======================================= LIGHTBOX INITIALIZATION
 let lightbox = new SimpleLightbox('.gallery a');
 
 // ======================================== ON IMG SUBMIT
-let searchImage;
-
 async function onImgSubmit(event) {
   event.preventDefault();
   refs.gallery.innerHTML = '';
-  hideEl(refs.loadMoreBtn);
   showEl(refs.loader);
   searchImage = event.currentTarget.elements.searchImage.value.trim('');
   // checking for empty fields
   if (searchImage === '') {
     errorMessage('Write what image you want to search for');
+    hideEl(refs.loader);
     return;
   }
-
   event.currentTarget.reset();
   currentPage = 1;
 
+  hideEl(refs.loadMoreBtn);
+  hideEl(refs.gallery);
   try {
     const res = await findImages(searchImage, currentPage, limitPerPage);
     // checking if images are present
@@ -50,59 +48,46 @@ async function onImgSubmit(event) {
       return;
     }
     // rendering images
-    const galleryMarkup = imagesRenderTemplate(res.data.hits);
-    refs.gallery.innerHTML = galleryMarkup;
-    // calculate num of img and the maximum possible page num
-    totalImg = res.data.totalHits;
-    maxNumPage = Math.ceil(res.data.totalHits / limitPerPage);
-
-    // checking for the last page
-    if (totalImg <= limitPerPage) {
-      warningMessage(
-        "You've reached the end of the collection. No more images are left"
-      );
-    } else {
-      // adding load more btn
-      showEl(refs.loadMoreBtn);
-    }
-    hideEl(refs.loader);
+    renderImg(res.data.hits);
+    showEl(refs.gallery);
     lightbox.refresh();
+    // calculate the max num of images
+    maxNumPage = Math.ceil(res.data.totalHits / limitPerPage);
+    // checking for the last page
+    checkLoadMoreBtnState(refs.loadMoreBtn);
   } catch (err) {
-    errorMessage(`Error: ${err}`)
+    errorMessage(`Error: ${err}`);
   }
+  hideEl(refs.loader);
 }
 
 // ================================================ ON LOAD MORE IMG
 
 async function onLoadMoreImg() {
-  hideEl(refs.loadMoreBtn);
-  refs.loadMoreBtn.style.order = 4;
-  refs.loader.style.order = 5;
   showEl(refs.loader);
- 
   currentPage += 1;
 
   try {
     // making request
     const res = await findImages(searchImage, currentPage, limitPerPage);
     // rendering images
-    const galleryMarkup = imagesRenderTemplate(res.data.hits);
-    refs.gallery.insertAdjacentHTML('beforeend', galleryMarkup);
-    setTimeout(() => {
-      turnSmoothScroll();
-    }, 50);
-    // checking for the last page
-    if (currentPage >= maxNumPage || limitPerPage * currentPage >= totalImg) {
-      warningMessage(
-        "You've reached the end of the collection. No more images are left"
-      );
-    } else {
-      // adding load more btn
-      showEl(refs.loadMoreBtn);
-    }
-    hideEl(refs.loader);
+    renderImg(res.data.hits);
     lightbox.refresh();
+    turnSmoothScroll();
+    checkLoadMoreBtnState(refs.loadMoreBtn);
   } catch (err) {
-    errorMessage(`Error: ${err}`)
+    errorMessage(`Error: ${err}`);
+  }
+  hideEl(refs.loader);
+}
+
+// ========================================= CHECK LOAD MORE STATE ========================================
+
+function checkLoadMoreBtnState(btn) {
+  if (currentPage >= maxNumPage) {
+    hideEl(btn);
+    warningMessage("You've reached the end of the collection");
+  } else {
+    showEl(btn);
   }
 }

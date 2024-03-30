@@ -22,5 +22,6 @@ const response = await Axios.get(
   ``, { params }
 );
 
+console.log(response);
 return response;
 }

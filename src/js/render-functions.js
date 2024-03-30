@@ -1,6 +1,13 @@
+import { refs } from "./elements";
+
 // ======================================== RENDER TEMPLATE
 
-export function imagesRenderTemplate(imagesData) {
+export function renderImg(images) {
+  const galleryMarkup = imagesRenderTemplate(images);
+  refs.gallery.insertAdjacentHTML("beforeend", galleryMarkup);
+}
+
+function imagesRenderTemplate(imagesData) {
   return imagesData.map(imageTemplate).join('');
 }
 
@@ -45,6 +52,3 @@ function imageTemplate({
   </div>
 </li>`;
 }
-
-
-

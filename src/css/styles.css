@@ -116,9 +116,16 @@ button {
 }
 /* ==================================================== GALLERY ============================================== */
 
+.images-gallery {
+  display: none;
+}
+
+.images-gallery.is-open {
+  display: flex;
+}
+
 @media screen and (min-width: 768px) {
   .images-gallery {
-    display: flex;
     flex-wrap: wrap;
     gap: 24px;
   }
