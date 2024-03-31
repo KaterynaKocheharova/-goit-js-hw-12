@@ -5,6 +5,9 @@ const Axios = axios.create({
   baseURL: "https://pixabay.com/api/"
 })
 
+
+
+
 export async function findImages(image, page, limit) {
 
 const params = {
